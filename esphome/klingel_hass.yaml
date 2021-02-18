@@ -1,0 +1,95 @@
+esphome:
+  name: klingel_hass
+  platform: ESP8266
+  board: d1_mini
+
+web_server:
+  port: 80
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+mqtt:
+  broker: !secret mqtt_broker
+
+logger:
+  level: INFO
+  logs:
+    mqtt.component: INFO
+    mqtt.client: ERROR
+
+api:
+  password: !secret hass_api_password
+
+ota:
+  password: !secret ota_password
+
+light:
+  - platform: fastled_clockless
+    chipset: "WS2812"
+    pin: D0
+    num_leds: 4
+    rgb_order: RGB
+    name: "ws28"
+  - platform: monochromatic
+    name: "led"
+    output: out_pwm
+
+status_led:
+  pin:
+    number: D4 # this is the wemos d1 mini onboard led
+    inverted: True
+
+binary_sensor:
+  - platform: gpio
+    pin:
+        number: D1
+        mode: INPUT_PULLUP
+        inverted: True
+    name: "bell"
+    on_press: # auto mute feature
+      then:
+        - if:
+            condition:
+              and:
+                - lambda: 'return id(auto_mute).state;'
+                - mqtt.connected: # don't auto mute if mqtt is disconnected
+            then:
+              - switch.turn_on: mute
+    on_release:
+      then:
+        - if:
+            condition:
+              lambda: 'return id(auto_mute).state;'
+            then:
+              - switch.turn_off: mute
+  - platform: gpio
+    pin:
+        number: D2
+        mode: INPUT_PULLUP
+        inverted: True
+    name: "sense"
+    
+    
+switch:
+  - platform: gpio
+    name: "mute"
+    id: mute
+    pin: D7
+  - platform: gpio
+    name: "RelayA"
+    pin: D6
+  - platform: gpio
+    name: "RelayB"
+    pin: D5
+  - platform: gpio
+    name: "auto mute"
+    pin: D3 # not actually connected
+    id: auto_mute
+    
+output:
+  - platform: esp8266_pwm
+    id: out_pwm
+    pin: D8
+
