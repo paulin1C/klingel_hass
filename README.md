@@ -1,5 +1,5 @@
 # klingel_hass
-PCB and code for a small board that intercepts the bell wiring and allows muting and remote door opening.
+PCB and code for a small board that intercepts the bell wiring and allows muting and remote door opening with home assistand.
 ## hardware
 ### PCB
 The gerber and drill files can be found in the `kicad` folder.
