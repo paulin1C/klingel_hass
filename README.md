@@ -1,8 +1,10 @@
 # klingel_hass
 PCB and code for a small board that intercepts the bell wiring and allows muting and remote door opening with home assistant.
+<br><img src="pictures/test_setup.jpg" width="400"/>
 ## hardware
 ### PCB
-The gerber and drill files can be found in the `kicad` folder.
+The gerber and drill files can be found in the `kicad` folder.<br>
+<img src="pictures/3d_rendering.png" width="400"/>
 ### bill of materials
 The following parts are used to assemble the PCB:
 |reference|part name|value|package|
@@ -49,6 +51,7 @@ A friend was worried about what would happen, when the device looses connection 
 
 ## home assistant
 The device should connect to wifi and be discovered by home assistant, which will ask you for the api password in `esphome/secrets.yaml` to connect.
+<br><img src="pictures/hass_card.png" width="400"/>
 
 ### entities
 |name|description|
@@ -57,7 +60,7 @@ The device should connect to wifi and be discovered by home assistant, which wil
 |sense|changes to `on` when a voltage is detected on the sense input|
 |mute|mutes the bell when switched on|
 |relayA|controls relay A|
-|relayB|controled relay B|
+|relayB|controls relay B|
 |auto mute|controls auto mute feature|
 |led|controls the small red led on the left|
 |ws28|should control the ws2812 leds (untested)|
