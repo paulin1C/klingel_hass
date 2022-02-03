@@ -79,7 +79,11 @@ switch:
     pin: D7
   - platform: gpio
     name: "RelayA"
+    id: relayA
     pin: D6
+    on_turn_on:
+      - delay: 10s
+      - switch.turn_off: relayA
   - platform: gpio
     name: "RelayB"
     pin: D5
