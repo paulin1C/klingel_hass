@@ -48,6 +48,8 @@ binary_sensor:
         mode: INPUT_PULLUP
         inverted: True
     name: "bell"
+    filters:
+      - delayed_off: 100ms
     on_press: # auto mute feature
       then:
         - if:
